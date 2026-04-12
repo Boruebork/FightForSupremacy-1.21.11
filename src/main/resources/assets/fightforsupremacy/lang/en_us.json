@@ -1,0 +1,13 @@
+{
+  "itemGroup.fightforsupremacy": "Example Mod Tab",
+  "block.fightforsupremacy.example_block": "Example Block",
+  "item.fightforsupremacy.example_item": "Example Item",
+
+  "fightforsupremacy.configuration.title": "Fight For Supremacy Configs",
+  "fightforsupremacy.configuration.section.fightforsupremacy.common.toml": "Fight For Supremacy Configs",
+  "fightforsupremacy.configuration.section.fightforsupremacy.common.toml.title": "Fight For Supremacy Configs",
+  "fightforsupremacy.configuration.items": "Item List",
+  "fightforsupremacy.configuration.logDirtBlock": "Log Dirt Block",
+  "fightforsupremacy.configuration.magicNumberIntroduction": "Magic Number Text",
+  "fightforsupremacy.configuration.magicNumber": "Magic Number"
+}
