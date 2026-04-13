@@ -22,7 +22,9 @@ import dev.ftb.mods.ftbteams.data.TeamManagerImpl;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionSet;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -104,31 +106,31 @@ public class FightForSupremacy {
     }
     Country israel;
     Country iran;
+    MinecraftServer server;
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) throws CommandSyntaxException {
+        server = event.getServer();
         // Do something when the server starts
         deleteTeams(event);
-        israel = CountryManager.createCountry(event.getServer(), "Israel","Israel a country", Color4I.BLUE);
-        //israel =  new Country((ServerTeam) ((TeamManagerImpl) FTBTeamsAPI.api().getManager()).createServerTeam(TeamUtil.fakeSource(event.getServer()), "Israel", "isr", Color4I.BLUE, UUID.randomUUID()));
-        //iran = new Country((TeamManagerImpl) FTBTeamsAPI.api().getManager(), UUID.randomUUID());
-        ClaimedChunkManager manager = FTBChunksAPI.api().getManager();
-        // Get team data for a player
-        ChunkTeamData teamData = manager.getOrCreateData(israel.team);
 
-// Claim a chunk
-        ChunkDimPos pos = new ChunkDimPos(Objects.requireNonNull(event.getServer().getLevel(Level.OVERWORLD)), new BlockPos(2387, 0, -2178));
-        teamData.claim(TeamUtil.fakeSource(event.getServer()), pos, false);
+    // Claim a chunk
+
     }
     @SubscribeEvent
-    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) throws CommandSyntaxException {
         //FTBTeamsAPI.api().getManager().
+        israel = CountryManager.createCountry((ServerPlayer) event.getEntity(), "Israel","Israel a country", Color4I.BLUE);
         israel.team.addMember(event.getEntity().getUUID(), TeamRank.MEMBER);
         israel.team.markDirty();
         TeamManagerImpl manager = (TeamManagerImpl) FTBTeamsAPI.api().getManager();
         manager.syncToAll(israel.team);
         LOGGER.info("player " + event.getEntity().getName().getString() + " joined Israel!");
         System.err.println("sss");
+        System.out.println(israel.team.getMembers());
+        ChunkDimPos pos = new ChunkDimPos(Objects.requireNonNull(server.getLevel(Level.OVERWORLD)), new BlockPos(2387, 0, -2178));
+        ClaimedChunkManager Cmanager = FTBChunksAPI.api().getManager();
+        Cmanager.getOrCreateData(israel.team).claim(TeamUtil.fakeSource(server), pos, false);
     }
 
     public void deleteTeams(ServerStartingEvent event) {
