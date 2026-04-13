@@ -8,11 +8,12 @@ import dev.ftb.mods.ftbteams.data.TeamManagerImpl;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class CountryManager {
-    public static List<Country> countries;
+    public static List<Country> countries = new ArrayList<>();
     public static Country createCountry(MinecraftServer server, String name, String description, Color4I color) throws CommandSyntaxException {
         countries.add(new Country((ServerTeam) ((TeamManagerImpl) FTBTeamsAPI.api().getManager()).createServerTeam(TeamUtil.fakeSource(server), name, description, color, UUID.randomUUID())));
         return countries.getLast();

@@ -121,13 +121,14 @@ public class FightForSupremacy {
         teamData.claim(TeamUtil.fakeSource(event.getServer()), pos, false);
     }
     @SubscribeEvent
-    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) throws CommandSyntaxException {
+    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         //FTBTeamsAPI.api().getManager().
         israel.team.addMember(event.getEntity().getUUID(), TeamRank.MEMBER);
         israel.team.markDirty();
         TeamManagerImpl manager = (TeamManagerImpl) FTBTeamsAPI.api().getManager();
         manager.syncToAll(israel.team);
-        LOGGER.info("player" + event.getEntity().getName().getString() + "joined Israel!");
+        LOGGER.info("player " + event.getEntity().getName().getString() + " joined Israel!");
+        System.err.println("sss");
     }
 
     public void deleteTeams(ServerStartingEvent event) {

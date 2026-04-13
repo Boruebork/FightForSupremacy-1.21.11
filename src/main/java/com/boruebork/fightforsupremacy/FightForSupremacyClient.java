@@ -26,7 +26,7 @@ public class FightForSupremacyClient {
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
     @SubscribeEvent
-    static void onClientTick(ClientTickEvent event){
+    static void onClientTick(ClientTickEvent.Post event){
         if (KeyBindings.T_MAPPING.get().consumeClick()){
             ClientPacketDistributor.sendToServer(new RequestCountryDataPacket(2));
         }
