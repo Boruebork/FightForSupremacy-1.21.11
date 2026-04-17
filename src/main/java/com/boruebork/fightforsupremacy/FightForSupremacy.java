@@ -16,6 +16,7 @@ import dev.ftb.mods.ftbteams.FTBTeams;
 import dev.ftb.mods.ftbteams.api.FTBTeamsAPI;
 import dev.ftb.mods.ftbteams.api.Team;
 import dev.ftb.mods.ftbteams.api.TeamRank;
+import dev.ftb.mods.ftbteams.api.event.TeamManagerEvent;
 import dev.ftb.mods.ftbteams.data.PartyTeam;
 import dev.ftb.mods.ftbteams.data.ServerTeam;
 import dev.ftb.mods.ftbteams.data.TeamManagerImpl;
@@ -117,21 +118,23 @@ public class FightForSupremacy {
     // Claim a chunk
 
     }
+
     @SubscribeEvent
     public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) throws CommandSyntaxException {
         //FTBTeamsAPI.api().getManager().
+        /*TeamManagerEvent.LOADED.invoker().accept(new TeamManagerEvent(this));
         israel = CountryManager.createCountry((ServerPlayer) event.getEntity(), "Israel","Israel a country", Color4I.BLUE);
         israel.team.addMember(event.getEntity().getUUID(), TeamRank.MEMBER);
-        israel.team.markDirty();
-        TeamManagerImpl manager = (TeamManagerImpl) FTBTeamsAPI.api().getManager();
-        manager.syncToAll(israel.team);
+        israel.team.markDirty();*/
+        /*TeamManagerImpl manager = (TeamManagerImpl) FTBTeamsAPI.api().getManager();
+        //manager.syncToAll(israel.team);
         LOGGER.info("player " + event.getEntity().getName().getString() + " joined Israel!");
         System.err.println("sss");
         System.out.println(israel.team.getMembers());
         ChunkDimPos pos = new ChunkDimPos(Objects.requireNonNull(server.getLevel(Level.OVERWORLD)), new BlockPos(2387, 0, -2178));
         ClaimedChunkManager Cmanager = FTBChunksAPI.api().getManager();
-        Cmanager.getOrCreateData(israel.team).claim(TeamUtil.fakeSource(server), pos, false);
-    }
+        Cmanager.getOrCreateData(israel.team).claim(((ServerPlayer) event.getEntity()).createCommandSourceStack().withPermission(PermissionSet.ALL_PERMISSIONS), pos, false);
+    */}
 
     public void deleteTeams(ServerStartingEvent event) {
         TeamManagerImpl manager = (TeamManagerImpl) FTBTeamsAPI.api().getManager();
