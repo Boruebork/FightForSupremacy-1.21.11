@@ -9,11 +9,13 @@ import com.boruebork.fightforsupremacy.team.TeamUtil;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.architectury.networking.NetworkManager;
 import dev.ftb.mods.ftbchunks.FTBChunks;
+import dev.ftb.mods.ftbchunks.FTBChunksCommands;
 import dev.ftb.mods.ftbchunks.api.ChunkTeamData;
 import dev.ftb.mods.ftbchunks.api.ClaimedChunkManager;
 import dev.ftb.mods.ftbchunks.api.FTBChunksAPI;
 import dev.ftb.mods.ftbchunks.data.ChunkTeamDataImpl;
 import dev.ftb.mods.ftbchunks.data.ClaimedChunkManagerImpl;
+import dev.ftb.mods.ftbchunks.net.AddWaypointPacket;
 import dev.ftb.mods.ftbchunks.net.ShareWaypointPacket;
 import dev.ftb.mods.ftblibrary.icon.Color4I;
 import dev.ftb.mods.ftblibrary.math.ChunkDimPos;
@@ -26,6 +28,7 @@ import dev.ftb.mods.ftbteams.api.event.TeamManagerEvent;
 import dev.ftb.mods.ftbteams.data.PartyTeam;
 import dev.ftb.mods.ftbteams.data.ServerTeam;
 import dev.ftb.mods.ftbteams.data.TeamManagerImpl;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.core.BlockPos;
@@ -173,6 +176,10 @@ public class FightForSupremacy {
                         .getBoolean("capitulated")
                         .orElse(false);
 
+                FTBChunksAPI.clientApi()
+                        .getWaypointManager(Level.OVERWORLD)
+                        .ifPresent(mgr -> mgr.removeWaypointAt(new BlockPos(team.getExtraData().getInt("capitalX").get(), team.getExtraData().getInt("capitalY").get(), team.getExtraData().getInt("capitalZ").get())));
+
                 if (capitulated) continue;
 
                 int x = team.getExtraData().getInt("capitalX").orElse(0);
@@ -189,12 +196,12 @@ public class FightForSupremacy {
                     team.getExtraData().putInt("capitalX", 0);
                     team.getExtraData().putInt("capitalY", 0);
                     team.getExtraData().putInt("capitalZ", 0);
-
                     for (ServerPlayer player : level.getServer().getPlayerList().getPlayers()) {
                         if (team.getMembers().contains(player.getUUID())) {
                             player.sendSystemMessage(Component.literal("Your capital has been destroyed!"));
                         }
                     }
+
                 }
             }
         }
@@ -211,20 +218,21 @@ public class FightForSupremacy {
                 team.getExtraData().putInt("capitalY", event.getPos().getY());
                 team.getExtraData().putInt("capitalZ", event.getPos().getZ());
                 var api = FTBChunksAPI.api();
-
-               ShareWaypointPacket packet = new ShareWaypointPacket("capital",
-                       new GlobalPos(
-                               Level.OVERWORLD,
-                               new BlockPos(
-                                       event.getPos().getX(),
-                                       event.getPos().getY(),
-                                       event.getPos().getZ()
-                               )
-                       ),
-                       ShareWaypointPacket.ShareType.SERVER,
-                       List.of()
-               );
-               NetworkManager.sendToServer(packet);
+                AddWaypointPacket packet = new AddWaypointPacket("capital of " + team.getName().getString(),
+                        new GlobalPos(
+                                Level.OVERWORLD,
+                                new BlockPos(
+                                        event.getPos().getX(),
+                                        event.getPos().getY(),
+                                        event.getPos().getZ()
+                                )
+                        ),
+                        0xFF0000,
+                        false
+                        );
+                for (ServerPlayer player1 : server.getPlayerList().getPlayers()) {
+                    NetworkManager.sendToPlayer(player1, packet);
+                }
                 ((ServerPlayer) player).sendSystemMessage(Component.literal("You placed teh capital!"));
             }
         }
