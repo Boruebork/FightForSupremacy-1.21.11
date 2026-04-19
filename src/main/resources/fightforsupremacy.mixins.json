@@ -2,7 +2,14 @@
   "required": true,
   "package": "com.boruebork.fightforsupremacy.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+    "FTBChunksClientMixin",
+    "MiniMapMixin"
+  ],
+  "client": [
+    "FTBChunksClientMixin",
+    "MiniMapMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   },

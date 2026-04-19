@@ -5,6 +5,7 @@ import dev.ftb.mods.ftbteams.data.ServerTeam;
 import net.minecraft.resources.Identifier;
 
 public class Country {
+    public CapitalData capitalData;
     public PartyTeam team;
     public Identifier flag;
     public CountryData data;

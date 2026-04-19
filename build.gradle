@@ -130,6 +130,7 @@ dependencies {
     implementation files("libs/ftb-chunks.jar")
     implementation files("libs/ftb-teams.jar")
     implementation files("libs/ftb-library.jar")
+    implementation files("libs/architectury.jar")
 
     //implementation("curse.maven:ftb-chunks-forge-314906:7701627")
     // Example optional mod dependency with JEI
