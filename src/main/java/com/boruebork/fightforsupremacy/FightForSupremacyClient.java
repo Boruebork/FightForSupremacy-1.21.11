@@ -1,5 +1,8 @@
 package com.boruebork.fightforsupremacy;
 
+import com.boruebork.fightforsupremacy.general.block.custom.entity.CapitalBLockEntity;
+import com.boruebork.fightforsupremacy.general.block.custom.entity.ModBE;
+import com.boruebork.fightforsupremacy.general.block.custom.entity.renderer.CapitalBERenderer;
 import com.boruebork.fightforsupremacy.network.packets.RequestCountryDataPacket;
 import com.boruebork.fightforsupremacy.util.KeyBindings;
 import net.minecraft.client.Minecraft;
@@ -10,6 +13,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
@@ -30,6 +34,10 @@ public class FightForSupremacyClient {
         if (KeyBindings.T_MAPPING.get().consumeClick()){
             ClientPacketDistributor.sendToServer(new RequestCountryDataPacket(2));
         }
+    }
+    @SubscribeEvent
+    public static void registerBER(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(ModBE.CAPITAL_BE.get(), CapitalBERenderer::new);
     }
 
     @SubscribeEvent
