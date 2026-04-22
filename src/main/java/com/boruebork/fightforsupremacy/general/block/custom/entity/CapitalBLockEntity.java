@@ -22,8 +22,11 @@ public class CapitalBLockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
         if (level.isClientSide()) return;
-        if (!FTBTeamsAPI.api().getManager().getTeamByID(team).isEmpty()){
-            teamName = FTBTeamsAPI.api().getManager().getTeamByID(team).get().getName().getString();
+        if (FTBTeamsAPI.api().getManager().getTeamByID(team) != null){
+            if (!FTBTeamsAPI.api().getManager().getTeamByID(team).isEmpty()){
+                teamName = FTBTeamsAPI.api().getManager().getTeamByID(team).get().getName().getString();
+            }
         }
+
     }
 }
