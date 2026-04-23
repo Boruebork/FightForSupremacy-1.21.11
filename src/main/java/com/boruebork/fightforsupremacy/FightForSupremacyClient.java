@@ -3,6 +3,8 @@ package com.boruebork.fightforsupremacy;
 import com.boruebork.fightforsupremacy.general.block.custom.entity.CapitalBLockEntity;
 import com.boruebork.fightforsupremacy.general.block.custom.entity.ModBE;
 import com.boruebork.fightforsupremacy.general.block.custom.entity.renderer.CapitalBERenderer;
+import com.boruebork.fightforsupremacy.general.entity.ModEntities;
+import com.boruebork.fightforsupremacy.general.entity.custom.client.radar.RadarRenderer;
 import com.boruebork.fightforsupremacy.network.packets.RequestCountryDataPacket;
 import com.boruebork.fightforsupremacy.util.KeyBindings;
 import net.minecraft.client.Minecraft;
@@ -38,6 +40,7 @@ public class FightForSupremacyClient {
     @SubscribeEvent
     public static void registerBER(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBE.CAPITAL_BE.get(), CapitalBERenderer::new);
+        event.registerEntityRenderer(ModEntities.RADAR.get(), RadarRenderer::new);
     }
 
     @SubscribeEvent

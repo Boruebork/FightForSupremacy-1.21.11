@@ -43,12 +43,11 @@ public class CapitalBERenderer implements BlockEntityRenderer<CapitalBLockEntity
     @Override
     public void submit(CapitalBERenderState capitalBERenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         poseStack.pushPose();
-        poseStack.translate(0.5, 1.2, 0.5);
+        poseStack.translate(0.5, 3, 0.5);
         if (capitalBERenderState.teamName == null){
             submitNodeCollector.submitText(poseStack, 0, 0, Component.literal("israel").getVisualOrderText(), false, Font.DisplayMode.NORMAL, Colors.GREEN, Colors.BLACK, capitalBERenderState.lightCoords, 0);
         }else{
             submitNodeCollector.submitText(poseStack, 0, 0, Component.literal(capitalBERenderState.teamName).getVisualOrderText(), false, Font.DisplayMode.NORMAL, Colors.GREEN, Colors.BLACK, capitalBERenderState.lightCoords, 0);
-
         }
         poseStack.popPose();
         //poseStack.translate(0.5, 1.2, 0.5);
